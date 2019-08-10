@@ -2,6 +2,7 @@
 
 * [DictionaryLookup](#DictionaryLookup)
 * [Iterate](#Iterate)
+* [ToList](#ToList)
 
 ## DictionaryLookup
 
