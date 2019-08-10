@@ -1,6 +1,7 @@
 # benchmarks
 
 * [DictionaryLookup](#DictionaryLookup)
+* [Iterate](#Iterate)
 
 ## DictionaryLookup
 
@@ -51,3 +52,31 @@ The bechmark is measuring a single non parallel lookup.
 |                DictionaryGet | 1000000 |      0 | 10.309 ns | 0.1888 ns | 0.1766 ns | 10.358 ns |
 |                DictionaryGet | 1000000 | 499999 | 10.274 ns | 0.1737 ns | 0.1451 ns | 10.252 ns |
 |                DictionaryGet | 1000000 | 999999 | 10.380 ns | 0.1454 ns | 0.1360 ns | 10.393 ns |
+
+## Iterate
+
+This benchmark compares the performance of iterating over different types of collections.
+
+|                    Method |      Mean |     Error |    StdDev | Gen 0 | Gen 1 | Gen 2 | Allocated |
+|-------------------------- |----------:|----------:|----------:|------:|------:|------:|----------:|
+|                  ForArray |  2.226 ms | 0.0165 ms | 0.0154 ms |     - |     - |     - |         - |
+|                  ForIList |  7.002 ms | 0.0480 ms | 0.0426 ms |     - |     - |     - |         - |
+|                   ForList |  2.254 ms | 0.0121 ms | 0.0108 ms |     - |     - |     - |         - |
+|              ForeachArray |  2.208 ms | 0.0191 ms | 0.0179 ms |     - |     - |     - |         - |
+|        ForeachIEnumerable |  7.194 ms | 0.0659 ms | 0.0617 ms |     - |     - |     - |      40 B |
+|              ForeachIList | 12.415 ms | 0.0757 ms | 0.0671 ms |     - |     - |     - |      40 B |
+|               ForeachList |  5.032 ms | 0.0443 ms | 0.0414 ms |     - |     - |     - |         - |
+| ForeachArrayAsIEnumerable |  7.268 ms | 0.0567 ms | 0.0530 ms |     - |     - |     - |      32 B |
+
+## ToList
+
+This benchmark compares different ways to convert a IEnumerable to list.  
+Naive uses `source.ToList()`.  
+Optimized uses `(source as List<T>) ?? source.ToList()`.
+
+|             Method |       Mean |     Error |    StdDev |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|------------------- |-----------:|----------:|----------:|-------:|------:|------:|----------:|
+|     NaiveFromArray | 136.811 ns | 2.1415 ns | 1.8984 ns | 0.0913 |     - |     - |     144 B |
+|      NaiveFromList | 106.203 ns | 1.4056 ns | 1.2460 ns | 0.0914 |     - |     - |     144 B |
+| OptimizedFromArray | 143.095 ns | 1.6491 ns | 1.5426 ns | 0.0913 |     - |     - |     144 B |
+|  OptimizedFromList |   3.389 ns | 0.0838 ns | 0.0784 ns |      - |     - |     - |         - |
