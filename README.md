@@ -1,6 +1,7 @@
 # benchmarks
 
 * [DictionaryLookup](#DictionaryLookup)
+* [HashAlgorithms](#HashAlgorithms)
 * [Iterate](#Iterate)
 * [ToList](#ToList)
 
@@ -53,6 +54,18 @@ The bechmark is measuring a single non parallel lookup.
 |                DictionaryGet | 1000000 |      0 | 10.309 ns | 0.1888 ns | 0.1766 ns | 10.358 ns |
 |                DictionaryGet | 1000000 | 499999 | 10.274 ns | 0.1737 ns | 0.1451 ns | 10.252 ns |
 |                DictionaryGet | 1000000 | 999999 | 10.380 ns | 0.1454 ns | 0.1360 ns | 10.393 ns |
+
+## HashAlgorithms
+
+This benchmark compares the performance of different hash algorithm implementations.
+
+| Method |     Mean |     Error |    StdDev |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|------- |---------:|----------:|----------:|-------:|------:|------:|----------:|
+|    Md5 | 3.805 us | 0.0378 us | 0.0335 us | 0.0191 |     - |     - |      80 B |
+|   Sha1 | 3.521 us | 0.0507 us | 0.0449 us | 0.0229 |     - |     - |      96 B |
+| Sha256 | 8.480 us | 0.0919 us | 0.0860 us | 0.0153 |     - |     - |     112 B |
+| Sha384 | 5.025 us | 0.0469 us | 0.0439 us | 0.0305 |     - |     - |     144 B |
+| Sha512 | 4.985 us | 0.0528 us | 0.0494 us | 0.0381 |     - |     - |     176 B |
 
 ## Iterate
 
