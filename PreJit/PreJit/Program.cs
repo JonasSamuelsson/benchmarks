@@ -11,7 +11,7 @@ namespace PreJit
       static void Main(string[] args)
       {
          //GenerateCode();
-         PreJit();
+         Execute("jit", Jit);
          One();
          Two();
          Three();
@@ -19,29 +19,29 @@ namespace PreJit
          Five();
       }
 
-      private static void One() => Execute();
-      private static void Two() => Execute();
-      private static void Three() => Execute();
-      private static void Four() => Execute();
-      private static void Five() => Execute();
+      private static void One() => Execute("execute", Runner.Execute);
+      private static void Two() => Execute("execute", Runner.Execute);
+      private static void Three() => Execute("execute", Runner.Execute);
+      private static void Four() => Execute("execute", Runner.Execute);
+      private static void Five() => Execute("execute", Runner.Execute);
 
-      private static void Execute()
+      private static void Execute(string info, Action action)
       {
          var stopwatch = Stopwatch.StartNew();
-         Runner.Execute();
-         Console.WriteLine($"{stopwatch.Elapsed.TotalMilliseconds} ms");
+         action.Invoke();
+         Console.WriteLine($"{info} : {stopwatch.Elapsed.TotalMilliseconds} ms");
       }
 
-      private static void PreJit()
+      private static void Jit()
       {
          foreach (var type in typeof(Program).Assembly.GetTypes())
          {
-            type.GetConstructors().ToList().ForEach(PreJit);
-            type.GetMethods().ToList().ForEach(PreJit);
+            type.GetConstructors().ToList().ForEach(Jit);
+            type.GetMethods().ToList().ForEach(Jit);
          }
       }
 
-      private static void PreJit(MethodBase method)
+      private static void Jit(MethodBase method)
       {
          System.Runtime.CompilerServices.RuntimeHelpers.PrepareMethod(method.MethodHandle);
       }
